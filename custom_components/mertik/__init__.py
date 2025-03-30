@@ -6,7 +6,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed, Unauthorized
 
 from .const import DOMAIN
 
-from homeassistant.const import CONF_HOST
+from homeassistant.const import CONF_HOST, Platform
 
 from .mertik import Mertik
 
@@ -25,9 +25,7 @@ async def async_setup_entry(
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
     # Forward the setup to the sensor platform.
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "switch")
-    )
+    await hass.config_entries.async_forward_entry_setups(entry, [Platform.SWITCH])
 
     return True
 

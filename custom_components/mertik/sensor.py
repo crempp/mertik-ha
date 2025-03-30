@@ -2,7 +2,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from homeassistant.components.sensor import SensorEntity
 
-from homeassistant.const import UnitOfTemperature
+from homeassistant.const import UnitOfTemperature, Platform
 
 from .const import DOMAIN
 
@@ -20,9 +20,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
     async_add_entities(entities)
 
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "light")
-    )
+    await hass.config_entries.async_forward_entry_setups(entry, [Platform.LIGHT])
 
 
 class MertikAmbientTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
